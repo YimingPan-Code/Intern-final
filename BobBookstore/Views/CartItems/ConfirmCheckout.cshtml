@@ -1,0 +1,172 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model IEnumerable<BobBookstore.Models.Customer.Address>
+@*@model Tuple<IEnumerable<BobBookstore.Models.Customer.Address>,IEnumerable<BobBookstore.Models.Order.OrderDetail>>*@
+@*@model Tuple<IEnumerable<BobBookstore.Models.Customer.Address>, IEnumerable<BobBookstore.Models.Customer.Address>>*@
+@{ 
+    var totalprice = 0.0;
+    foreach (var item in ViewData["order"] as List<BobBookstore.Models.ViewModels.OrderDetailViewModel>)
+    {
+        totalprice += item.price * item.quantity;
+    }
+}
+<h1>Finish your order</h1>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TransData</title>
+</head>
+<body>
+    <div>
+        <h2>Total price :$@totalprice</h2>
+    </div>
+</body>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                
+            </th>
+            <th>
+
+                addressline1
+            </th>
+            <th>
+                AddressLine2
+            </th>
+            <th>
+                City
+            </th>
+            <th>
+                State
+            </th>
+            <th>
+                Country
+            </th>
+            <th>
+                ZipCode
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @using (Html.BeginForm(new { action = "ConfirmOrderAddress" }))
+        {
+            @foreach (var item in Model)
+            {
+                @if (item.IsPrimary == true)
+                {
+                    <tr>
+                        <td>
+                            <input type="radio" id="primary" name="addressID" value="@Html.DisplayFor(modelItem => item.Address_Id)" checked />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AddressLine1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AddressLine2)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.City)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.State)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Country)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ZipCode)
+                        </td>
+                        <td>
+                            <a id="PrimeryAddressEdit" asp-area="Identity" asp-page="/Account/Manage/PrimeryAddressEdit">Edit</a> |
+
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td>
+                            <input type="radio" id="primary" name="addressID" value="1" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AddressLine1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AddressLine2)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.City)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.State)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Country)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ZipCode)
+                        </td>
+                        <td>
+                            <a asp-controller="Addresses" asp-action="Edit" asp-route-id="@item.Address_Id">Edit</a> 
+
+                        </td>
+                    </tr>
+                }
+            }
+            <input type="hidden" name="OrderId" value="@ViewData["orderId"]" />
+            <input type="submit" value="Finish your order" style="background-color: #0b71ca ;color: #FFFFFF" />
+        }
+    </tbody>
+
+
+</table>
+<div>
+    <p style="text-align: center"><a asp-action="AddAddressAtChechout" >add address</a></p>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Cover
+            </th>
+            <th>
+                name
+            </th>
+            <th>
+                price
+            </th>
+            <th>quantity</th>
+            <th>total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewData["order"] as List<BobBookstore.Models.ViewModels.OrderDetailViewModel>)
+        {
+            double total = item.price * item.quantity;
+            <tr>
+                <td>
+                    <img src="@item.Url" height="80" width="50"/>
+                </td>
+                <td>
+                    @item.Bookname
+                </td>
+
+                <td>
+
+                   $@item.price
+
+                <td>
+
+                    @item.quantity
+                </td>
+                <td>$@total</td>
+
+
+            </tr>
+        }
+    </tbody>
+</table>
