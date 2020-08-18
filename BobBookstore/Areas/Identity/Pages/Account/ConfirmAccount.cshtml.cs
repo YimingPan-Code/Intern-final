@@ -50,6 +50,7 @@ namespace BobBookstore.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
+                //get user id
                 var userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name).Value;
 
                 var user = await _userManager.FindByIdAsync(userId);
@@ -66,7 +67,7 @@ namespace BobBookstore.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    //this part is to add customer information into the DB,birthday need to be convert
+                    //this part is to add customer information into the DB
                     var userName = await _userManager.GetUserNameAsync(user);
                     
                     var firstName = user.Attributes[CognitoAttribute.GivenName.AttributeName];
@@ -88,19 +89,12 @@ namespace BobBookstore.Areas.Identity.Pages.Account
                     _context.Add(customer);
                     _context.SaveChanges();
                    
-                    //var currentuser = await _userManager.GetUserAsync(User);
-                    //var email = user.Attributes[CognitoAttribute.Email.AttributeName];
-                    var currentCustomer = from m in _context.Customer
-                                   select m;
-                    currentCustomer = currentCustomer.Where(s => s.Email == email);
-                    var CustomerId = new Customer();
-                    foreach (var CC in currentCustomer)
-                    {
-                        CustomerId = CC;
-                    }
+                    var currentCustomerID = _context.Customer.Find(user.Attributes[CognitoAttribute.Sub.AttributeName]);
+                    
+                    //get cardid
                     var cartId = HttpContext.Request.Cookies["CartId"];
-                    var recentCart = await _context.Cart.FindAsync(Convert.ToInt32(cartId));
-                    recentCart.Customer = CustomerId;
+                    var recentCart = await _context.Cart.FindAsync(Convert.ToString ( cartId));
+                    recentCart.Customer = currentCustomerID;
                     _context.Update(recentCart);
                     await _context.SaveChangesAsync();
 

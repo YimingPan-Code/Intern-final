@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "TzKe0YfZFg1J0w98yqKq+oFs0a7xMrkgMA7KxS+BQ6plhaVUSenQ2DC4lwylSznvXuuZ67zzypsYLRqNomg6/w==",
+  "dgSpecHash": "ERdGfnM/jBBfpWiWeKMBqhwh8cicewYc7fZDq7OkhVjLXDhVrDI+DQ7QRZESgyLYUjvPX/Z8qF0/QxJkQxY+Wg==",
   "success": true,
-  "projectFilePath": "D:\\Users\\yiminp\\Desktop\\7-20\\Frontend-Bobs-Used-Books\\BobBookstore\\BobBookstore.csproj",
+  "projectFilePath": "D:\\Users\\yiminp\\Desktop\\8-6\\Frontend-Bobs-Used-Books\\BobBookstore\\BobBookstore.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\yiminp\\.nuget\\packages\\amazon.aspnetcore.identity.cognito\\1.0.4\\amazon.aspnetcore.identity.cognito.1.0.4.nupkg.sha512",
     "C:\\Users\\yiminp\\.nuget\\packages\\amazon.extensions.cognitoauthentication\\1.0.3\\amazon.extensions.cognitoauthentication.1.0.3.nupkg.sha512",

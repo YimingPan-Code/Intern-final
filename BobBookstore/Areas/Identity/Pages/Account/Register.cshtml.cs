@@ -83,6 +83,7 @@ namespace BobBookstore.Areas.Identity.Pages.Account
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
+                //set origin attributew value for the user
                 var user = _pool.GetUser(Input.UserName);
                 user.Attributes.Add(CognitoAttribute.Email.AttributeName, Input.Email);
                 user.Attributes.Add(CognitoAttribute.Address.AttributeName, "default");
@@ -98,14 +99,14 @@ namespace BobBookstore.Areas.Identity.Pages.Account
                 user.Attributes.Add(CognitoAttribute.PhoneNumber.AttributeName, "+01234567890");
                 user.Attributes.Add(CognitoAttribute.FamilyName.AttributeName, Input.LastName);
                 user.Attributes.Add(CognitoAttribute.GivenName.AttributeName, Input.FirstName);
+                //check if the email has been used
                 var existuser = await _userManager.FindByEmailAsync(Input.Email);
                 if (existuser!=null)
                 {
-                    //throw new InvalidOperationException("E-mail address has been used");
                     ModelState.AddModelError(string.Empty, "E-mail address has been used");
                     return Page();
                 }
-
+                //creat account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

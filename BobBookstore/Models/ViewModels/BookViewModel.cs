@@ -17,8 +17,13 @@ namespace BobBookstore.Models.ViewModels
         public int PageSize { get; set; } = 10;
 
         [Display(Name = "Title")]
+        [DefaultValue("Title")]
         public string BookName { get; set; }
 
+        [DefaultValue("Publisher not found")]
+        public string PublisherName { get; set; }
+
+        [DefaultValue("No Author")]
         public string Author { get; set; }
 
         public long ISBN { get; set; }
@@ -34,6 +39,8 @@ namespace BobBookstore.Models.ViewModels
 
         [Display(Name = "$$")]
         public double MinPrice { get; set; }
+
+        public string Summary { get; set; }
 
 
         //public static void sortBy(List<BookViewModel> lst, string prop)

@@ -85,25 +85,15 @@ namespace BobBookstore.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     
-
-
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
-                else if (result.RequiresTwoFactor)
-                {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                }
+                
                 else if (result.IsCognitoSignInResult())
                 {
                     if (result is CognitoSignInResult cognitoResult)
                     {
-                        if (cognitoResult.RequiresPasswordChange)
-                        {
-                            _logger.LogWarning("User password needs to be changed");
-                            return RedirectToPage("./ChangePassword");
-                        }
-                        else if (cognitoResult.RequiresPasswordReset)
+                        if (cognitoResult.RequiresPasswordReset)
                         {
                             _logger.LogWarning("User password needs to be reset");
                             return RedirectToPage("./ResetPassword");

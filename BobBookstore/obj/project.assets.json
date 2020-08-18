@@ -9926,11 +9926,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Users\\yiminp\\Desktop\\7-20\\Frontend-Bobs-Used-Books\\BobBookstore\\BobBookstore.csproj",
+      "projectUniqueName": "D:\\Users\\yiminp\\Desktop\\8-6\\Frontend-Bobs-Used-Books\\BobBookstore\\BobBookstore.csproj",
       "projectName": "BobBookstore",
-      "projectPath": "D:\\Users\\yiminp\\Desktop\\7-20\\Frontend-Bobs-Used-Books\\BobBookstore\\BobBookstore.csproj",
+      "projectPath": "D:\\Users\\yiminp\\Desktop\\8-6\\Frontend-Bobs-Used-Books\\BobBookstore\\BobBookstore.csproj",
       "packagesPath": "C:\\Users\\yiminp\\.nuget\\packages\\",
-      "outputPath": "D:\\Users\\yiminp\\Desktop\\7-20\\Frontend-Bobs-Used-Books\\BobBookstore\\obj\\",
+      "outputPath": "D:\\Users\\yiminp\\Desktop\\8-6\\Frontend-Bobs-Used-Books\\BobBookstore\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "D:\\Users\\yiminp\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -10014,7 +10014,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
       }
     }
   },

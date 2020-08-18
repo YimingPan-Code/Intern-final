@@ -28,7 +28,7 @@ namespace BobBookstore.Controllers
             _userManager = userManager;
         }
 
-        // GET: Addresses
+        
         public async Task<IActionResult> Index()
         {
             
@@ -39,39 +39,15 @@ namespace BobBookstore.Controllers
                           where c.Customer == customer
                           select c;
 
-
-
-
             return View(await address.ToListAsync());
         }
-
-        // GET: Addresses/Details/5
-        public async Task<IActionResult> Details(long? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var address = await _context.Address
-                .FirstOrDefaultAsync(m => m.Address_Id == id);
-            if (address == null)
-            {
-                return NotFound();
-            }
-
-            return View(address);
-        }
-
-        // GET: Addresses/Create
+        //creat address
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Addresses/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Address_Id,AddressLine1,AddressLine2,City,State,Country,ZipCode")] Address address)
@@ -89,7 +65,7 @@ namespace BobBookstore.Controllers
             return View(address);
         }
 
-        // GET: Addresses/Edit/5
+        //edit address
         public async Task<IActionResult> Edit(long? id)
         {
             if (id == null)
@@ -105,9 +81,7 @@ namespace BobBookstore.Controllers
             return View(address);
         }
 
-        // POST: Addresses/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(long id, [Bind("Address_Id,AddressLine1,AddressLine2,City,State,Country,ZipCode")] Address address)
@@ -121,19 +95,7 @@ namespace BobBookstore.Controllers
             {
                 try
                 {
-                    if (address.IsPrimary == true)
-                    {
-                        var user = await _userManager.GetUserAsync(User);
-                        user.Attributes["custom:AddressLine1"] = address.AddressLine1;
-                        user.Attributes["custom:AddressLine2"] = address.AddressLine2;
-                        user.Attributes["custom:City"] = address.City;
-                        user.Attributes["custom:State"] =address.State;
-                        user.Attributes["custom:Country"] = address.Country;
-
-                        user.Attributes["custom:ZipCode"] = Convert.ToString( address.ZipCode);
-
-                        var result = await _userManager.UpdateAsync(user);
-                    }
+                    
                     _context.Update(address);
                     await _context.SaveChangesAsync();
                 }
@@ -153,7 +115,7 @@ namespace BobBookstore.Controllers
             return View(address);
         }
 
-        // GET: Addresses/Delete/5
+        //delete address
         public async Task<IActionResult> Delete(long? id)
         {
             if (id == null)
@@ -171,7 +133,7 @@ namespace BobBookstore.Controllers
             return View(address);
         }
 
-        // POST: Addresses/Delete/5
+        
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
@@ -185,6 +147,28 @@ namespace BobBookstore.Controllers
         private bool AddressExists(long id)
         {
             return _context.Address.Any(e => e.Address_Id == id);
+        }
+
+        public async Task<IActionResult> SwitchToPrime(long id)
+        {
+           
+            //change origin to not prime
+            var user = await _userManager.GetUserAsync(User);
+            var idd = user.Attributes[CognitoAttribute.Sub.AttributeName];
+            var customer = _context.Customer.Find(idd);
+            var addresses = from c in _context.Address
+                          where c.Customer == customer&&c.IsPrimary==true
+                          select c;
+            foreach (var item in addresses)
+            {
+                item.IsPrimary = false;
+            }
+            //change to prime
+            var address = await _context.Address.FindAsync(id);
+            address.IsPrimary = true;
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
